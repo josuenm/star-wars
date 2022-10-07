@@ -10,7 +10,7 @@ export const Header = ({ paths, backTo }: HeaderProps) => {
   const navigate = useNavigate();
 
   return (
-    <header className="fixed backdrop-blur w-full border-b border-stone-700 py-5">
+    <header className="fixed z-20 backdrop-blur w-full border-b border-stone-700 py-5">
       <SafeArea className="flex text-white">
         <button
           className="active:border-sky-400 md:hover:border-sky-400 active:underline md:hover:underline"
