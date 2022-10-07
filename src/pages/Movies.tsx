@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { AnimatedPage, Header, MovieCard, SafeArea } from "@components";
 import { LIST_ALL_MOVIES } from "@services/graphql/movies";
-import { useEffect, useRef, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 
 type MovieProps = {
   id: string;
@@ -11,12 +11,49 @@ type MovieProps = {
   producers: string[];
 };
 
+interface FilterModalProps {
+  setModalIsOpen: React.Dispatch<SetStateAction<boolean>>;
+}
+
+const FilterModal = ({ setModalIsOpen }: FilterModalProps) => {
+  const ReleaseRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <>
+      <div
+        className="fixed w-full h-screen bg-black/90 z-10"
+        onClick={() => setModalIsOpen(false)}
+      />
+      <div className="max-w-[300px] w-full fixed bottom-2/4 right-2/4 translate-x-2/4 translate-y-2/4 p-5 rounded bg-black z-10 border border-stone-700 text-white flex flex-col gap-5">
+        <h2 className="text-2xl font-bold ">Filters</h2>
+
+        <div>
+          <label htmlFor="release" className="text-lg">
+            Year of release:
+          </label>
+          <input
+            ref={ReleaseRef}
+            type="text"
+            name="release"
+            id="release"
+            className="w-full bg-transparent border border-stone-700 rounded outline-none text-sm text-white px-5 py-2 focus:border-sky-400"
+            placeholder="Ex: 1980"
+          />
+        </div>
+
+        <button className="w-full bg-white text-black px-2 py-1 font-medium rounded">
+          Filter
+        </button>
+      </div>
+    </>
+  );
+};
+
 const Movies = () => {
   const SearchRef = useRef<HTMLInputElement>(null);
-
   const { data } = useQuery(LIST_ALL_MOVIES);
-
   const [filteredData, setFilteredData] = useState<MovieProps[]>([]);
+  const [filterIsOpen, setFilterIsOpen] = useState(false);
 
   const search = () => {
     const searchValue = SearchRef.current?.value.toLowerCase() || "";
@@ -33,6 +70,8 @@ const Movies = () => {
     setFilteredData(filteredMovies);
   };
 
+  const filter = () => {};
+
   useEffect(() => {
     document.title = "Movies - Star Wars";
   }, []);
@@ -40,6 +79,9 @@ const Movies = () => {
   return (
     <AnimatedPage>
       <Header backTo="/dashboard" paths={["dashboard", "movies"]} />
+
+      {filterIsOpen && <FilterModal setModalIsOpen={setFilterIsOpen} />}
+
       <SafeArea>
         <div className="flex items-center gap-3 flex-col pt-24">
           <input
@@ -56,8 +98,11 @@ const Movies = () => {
             >
               Search
             </button>
-            <button className="w-32 border text-white px-2 py-1 font-medium rounded">
-              Filter
+            <button
+              className="w-32 border text-white px-2 py-1 font-medium rounded"
+              onClick={() => setFilterIsOpen(true)}
+            >
+              Filters
             </button>
           </div>
         </div>
