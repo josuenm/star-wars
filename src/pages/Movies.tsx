@@ -1,8 +1,9 @@
+import { useQuery } from "@apollo/client";
 import { AnimatedPage, Header, MovieCard, SafeArea } from "@components";
-import { useMovies } from "@contexts/MoviesContext";
-import { useRef } from "react";
+import { LIST_ALL } from "@services/graphql/movies";
+import { useRef, useState } from "react";
 
-type MoviesProps = {
+type MovieProps = {
   id: string;
   title: string;
   director: string;
@@ -11,11 +12,26 @@ type MoviesProps = {
 };
 
 const Movies = () => {
-  const { listAll, searchMovies, movies } = useMovies();
-
   const SearchRef = useRef<HTMLInputElement>(null);
-  const search = () =>
-    searchMovies(SearchRef.current?.value.toLowerCase() || "");
+
+  const { data } = useQuery(LIST_ALL);
+
+  const [filteredData, setFilteredData] = useState<MovieProps[]>([]);
+
+  const search = () => {
+    const searchValue = SearchRef.current?.value.toLowerCase() || "";
+
+    if (searchValue === "") {
+      setFilteredData([]);
+      return;
+    }
+
+    const filteredMovies = data.allFilms.films.filter((movie: MovieProps) =>
+      movie.title.toLowerCase().includes(searchValue)
+    );
+
+    setFilteredData(filteredMovies);
+  };
 
   return (
     <AnimatedPage>
@@ -43,9 +59,14 @@ const Movies = () => {
         </div>
 
         <div className="flex flex-col gap-8 py-10">
-          {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
+          {filteredData.length > 0
+            ? filteredData.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))
+            : data &&
+              data.allFilms.films.map((movie: MovieProps) => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))}
         </div>
       </SafeArea>
     </AnimatedPage>
