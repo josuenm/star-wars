@@ -1,4 +1,5 @@
 import { AnimatedPage, SafeArea } from "@components";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 interface CardProps {
@@ -33,13 +34,11 @@ const Dashboard = () => {
         "Search for all movies from one of the most famous movie franchises",
       linkTo: "/movies",
     },
-    {
-      id: "2",
-      title: "Planets",
-      description: "See all the most curious details of star wars planets",
-      linkTo: "/planets",
-    },
   ];
+
+  useEffect(() => {
+    document.title = "Dashboard - Star Wars";
+  }, []);
 
   return (
     <AnimatedPage>
