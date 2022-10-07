@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { AnimatedPage, Header, MovieCard, SafeArea } from "@components";
-import { LIST_ALL } from "@services/graphql/movies";
-import { useRef, useState } from "react";
+import { LIST_ALL_MOVIES } from "@services/graphql/movies";
+import { useEffect, useRef, useState } from "react";
 
 type MovieProps = {
   id: string;
@@ -14,7 +14,7 @@ type MovieProps = {
 const Movies = () => {
   const SearchRef = useRef<HTMLInputElement>(null);
 
-  const { data } = useQuery(LIST_ALL);
+  const { data } = useQuery(LIST_ALL_MOVIES);
 
   const [filteredData, setFilteredData] = useState<MovieProps[]>([]);
 
@@ -33,9 +33,13 @@ const Movies = () => {
     setFilteredData(filteredMovies);
   };
 
+  useEffect(() => {
+    document.title = "Movies - Star Wars";
+  }, []);
+
   return (
     <AnimatedPage>
-      <Header paths={["dashboard", "movies"]} />
+      <Header backTo="/dashboard" paths={["dashboard", "movies"]} />
       <SafeArea>
         <div className="flex items-center gap-3 flex-col pt-24">
           <input
