@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   paths: string[];
+  backTo: string;
 }
 
-export const Header = ({ paths }: HeaderProps) => {
+export const Header = ({ paths, backTo }: HeaderProps) => {
   const navigate = useNavigate();
 
   return (
@@ -13,7 +14,7 @@ export const Header = ({ paths }: HeaderProps) => {
       <SafeArea className="flex text-white">
         <button
           className="active:border-sky-400 md:hover:border-sky-400 active:underline md:hover:underline"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(backTo)}
         >
           Back
         </button>
