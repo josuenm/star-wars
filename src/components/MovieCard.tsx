@@ -15,7 +15,7 @@ interface MovieCardProps {
 export const MovieCard = ({ movie }: MovieCardProps) => {
   return (
     <Link to={"/movies/" + movie.id}>
-      <div className="text-white w-full min-h-[120px] border border-stone-700 rounded p-2 flex flex-col gap-3 active:border-sky-400 md:hover:border-sky-400">
+      <div className="text-white w-full md:w-[380px] h-[200px] border border-stone-700 rounded p-2 flex flex-col justify-between gap-3 active:border-sky-400 md:hover:border-sky-400">
         <h2 className="font-bold text-2xl">{movie.title}</h2>
         <div>
           <p className="text-lg font-normal">Producers:</p>
