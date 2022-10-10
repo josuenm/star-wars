@@ -15,7 +15,7 @@ interface PlanetProps {
 
 const PlanetCard = ({ planet }: { planet: PlanetProps }) => {
   return (
-    <div className="text-white w-full min-h-[120px] border border-stone-700 rounded p-2 flex flex-col gap-3 active:border-sky-400 md:hover:border-sky-400">
+    <div className="text-white w-full md:w-[300px] h-[330px] border border-stone-700 rounded p-2 flex flex-col justify-between gap-3 active:border-sky-400 md:hover:border-sky-400">
       <h2 className="text-2xl font-bold mb-2">{planet.name}</h2>
 
       {planet.gravity && (
@@ -111,7 +111,7 @@ const SelectedMovie = () => {
           <div>
             <h2 className="text-3xl font-medium">Planets:</h2>
 
-            <div className="mt-8 flex flex-col gap-12">
+            <div className="mt-8 flex flex-col gap-12 md:flex-row md:justify-between flex-wrap">
               {data.film.planetConnection.planets.map((planet: PlanetProps) => (
                 <PlanetCard key={planet.id} planet={planet} />
               ))}
