@@ -15,7 +15,7 @@ interface PlanetProps {
 
 const PlanetCard = ({ planet }: { planet: PlanetProps }) => {
   return (
-    <div className="text-white w-full md:w-[300px] h-[330px] border border-stone-700 rounded p-2 flex flex-col justify-between gap-3 active:border-sky-400 md:hover:border-sky-400">
+    <div className="text-white w-full md:w-[380px] md:h-[330px] border border-stone-700 rounded p-2 flex flex-col justify-between gap-3 active:border-sky-400 md:hover:border-sky-400">
       <h2 className="text-2xl font-bold mb-2">{planet.name}</h2>
 
       {planet.gravity && (
@@ -36,11 +36,22 @@ const PlanetCard = ({ planet }: { planet: PlanetProps }) => {
         <div>
           <h2 className="text-lg font-medium">Terrain:</h2>
           <ul className="list-disc ml-5">
-            {planet.terrains.map((terrain: string) => (
-              <li key={terrain} className="font-light">
-                {terrain}
-              </li>
-            ))}
+            {planet.terrains.length > 2 ? (
+              <>
+                {planet.terrains.slice(0, 2).map((terrain: string) => (
+                  <li key={terrain} className="font-light">
+                    {terrain}
+                  </li>
+                ))}
+                <li className="font-light">And others</li>
+              </>
+            ) : (
+              planet.terrains.map((terrain: string) => (
+                <li key={terrain} className="font-light">
+                  {terrain}
+                </li>
+              ))
+            )}
           </ul>
         </div>
       )}
@@ -49,11 +60,22 @@ const PlanetCard = ({ planet }: { planet: PlanetProps }) => {
         <div>
           <h2 className="text-lg font-medium">Climates:</h2>
           <ul className="list-disc ml-5">
-            {planet.climates.map((climate: string) => (
-              <li key={climate} className="font-light">
-                {climate}
-              </li>
-            ))}
+            {planet.climates.length > 2 ? (
+              <>
+                {planet.climates.slice(0, 2).map((climate: string) => (
+                  <li key={climate} className="font-light">
+                    {climate}
+                  </li>
+                ))}
+                <li>And others</li>
+              </>
+            ) : (
+              planet.climates.map((climate: string) => (
+                <li key={climate} className="font-light">
+                  {climate}
+                </li>
+              ))
+            )}
           </ul>
         </div>
       )}
@@ -111,7 +133,7 @@ const SelectedMovie = () => {
           <div>
             <h2 className="text-3xl font-medium">Planets:</h2>
 
-            <div className="mt-8 flex flex-col gap-12 md:flex-row md:justify-between flex-wrap">
+            <div className="mt-8 flex flex-col gap-5 md:flex-row md:justify-between flex-wrap">
               {data.film.planetConnection.planets.map((planet: PlanetProps) => (
                 <PlanetCard key={planet.id} planet={planet} />
               ))}
