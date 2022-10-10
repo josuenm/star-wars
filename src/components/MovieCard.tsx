@@ -20,11 +20,30 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         <div>
           <p className="text-lg font-normal">Producers:</p>
           <ul>
-            {movie.producers.map((producer) => (
-              <li key={producer} className="text-sm font-light list-disc ml-5">
-                {producer}
-              </li>
-            ))}
+            {movie.producers.length > 3 ? (
+              <>
+                {movie.producers.slice(0, 3).map((producer) => (
+                  <li
+                    key={producer}
+                    className="text-sm font-light list-disc ml-5"
+                  >
+                    {producer}
+                  </li>
+                ))}
+                <li className="text-sm font-light list-disc ml-5">
+                  And others
+                </li>
+              </>
+            ) : (
+              movie.producers.map((producer) => (
+                <li
+                  key={producer}
+                  className="text-sm font-light list-disc ml-5"
+                >
+                  {producer}
+                </li>
+              ))
+            )}
           </ul>
         </div>
 
