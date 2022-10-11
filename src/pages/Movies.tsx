@@ -44,6 +44,19 @@ const Movies = () => {
 
     const filterKeys = ["title", "director"];
 
+    if (filteredData.length > 0) {
+      const filteredMovies = filteredData.filter(
+        (movie: { [key: string]: any }) => {
+          filterKeys.some((key: string) =>
+            movie[key].toLowerCase().includes(searchValue)
+          );
+        }
+      );
+
+      setFilteredData(filteredMovies);
+      return;
+    }
+
     const filteredMovies = data.allFilms.films.filter(
       (movie: { [key: string]: string }) =>
         filterKeys.some((key: string) =>
